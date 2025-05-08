@@ -3,29 +3,6 @@
   "license": "0BSD",
   "main": "expo-router/entry",
   "version": "1.0.0",
-  "expo": {
-    "doctor": {
-      "reactNativeDirectoryCheck": {
-        "exclude": [
-          "react-native-event-listeners",
-          "react-native-element-dropdown",
-          "react-native-notifications",
-          "@expo/config",
-          "@expo/metro-config",
-          "@react-native-community/cli-server-api",
-          "color",
-          "deepmerge",
-          "lodash.debounce",
-          "moment",
-          "react-native-country-flag",
-          "react-native-paper-dropdown",
-          "react-native-reanimated-skeleton",
-          "tailwindcss"
-        ],
-        "listUnknownPackages": false
-      }
-    }
-  },
   "scripts": {
     "start": "npm run gen-types:prod && cross-env APP_VARIANT=production npx expo start",
     "dev": "npm run gen-types:dev && cross-env APP_VARIANT=development npx expo start",

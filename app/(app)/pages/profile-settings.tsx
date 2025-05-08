@@ -7,7 +7,7 @@ import { ButtonWithBorderRadius } from "@/lib/components/ButtonWithBorderRadius"
 import { isValidMinLength, requiredRule } from "@/lib/utils/validations";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import { useThemeColor } from "@/lib/hooks/useThemeColor";
-import { profileActions } from "@/lib/redux/slices/profile.slice";
+import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { useCallback } from "react";
 import { useRootContextValues } from "@/lib/contexts/root.context";
 import { ThunkStatus } from "@/lib/types/misc";

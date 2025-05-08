@@ -5,7 +5,7 @@ import { useSession } from "@/lib/contexts/auth.context";
 import AppBar from "@/lib/components/Appbar";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import messaging from "@react-native-firebase/messaging";
-import { profileActions } from "@/lib/redux/slices/profile.slice";
+import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { Notifications } from "react-native-notifications";
 
 export default function AppLayout() {

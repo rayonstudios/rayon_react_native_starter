@@ -1,6 +1,6 @@
 import { useSession } from "@/lib/contexts/auth.context";
 import { useRootContextValues } from "@/lib/contexts/root.context";
-import { profileActions } from "@/lib/redux/slices/profile.slice";
+import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { useAppDispatch } from "@/lib/redux/store";
 import { router } from "expo-router";
 import { useMemo } from "react";

@@ -1,5 +1,5 @@
 import { getErrorMessage, globalErrorHandler } from "@/lib/utils/error.utils";
-import authService from "./redux/services/auth.service";
+import authService from "./modules/auth/services/auth.service";
 import axiosApi from "axios";
 import { API_BASE_URL_DEV, API_BASE_URL_PROD } from "./constants/misc";
 import {

@@ -1,5 +1,5 @@
 import { useAppDispatch } from "@/lib/redux/store";
-import { profileActions } from "@/lib/redux/slices/profile.slice";
+import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { router, useNavigationContainerRef } from "expo-router";
 import { useEffect, useState } from "react";
 import { View } from "react-native";

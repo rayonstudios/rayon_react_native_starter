@@ -22,9 +22,6 @@ async function changePassword(payload: AuthChangePasswordBody) {
   const { data } = await withApiResponseHandling(
     apiClient.POST("/auth/change-password", {
       body: payload,
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
     })
   );
   return data;

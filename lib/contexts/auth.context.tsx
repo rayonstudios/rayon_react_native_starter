@@ -13,11 +13,11 @@ import {
   AuthVerifyEmailBody,
   AuthResendVerificationBody,
 } from "../types/auth";
-import authService from "../redux/services/auth.service";
+import authService from "../modules/auth/services/auth.service";
 import { router } from "expo-router";
 import { useAppDispatch } from "../redux/store";
-import { profileActions } from "@/lib/redux/slices/profile.slice";
 import Toast from "react-native-toast-message";
+import { profileActions } from "../modules/profile/slices/profile.slice";
 
 const AuthContext = createContext<{
   signIn: (data: AuthLoginBody) => void;

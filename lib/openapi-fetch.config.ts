@@ -31,7 +31,12 @@ const apiClient = createClient<paths>({
     const ct = req.headers.get("content-type") || "";
     let data: any;
     if (ct.includes("application/json")) {
-      data = await req.json();
+      try {
+        data = await req.json();
+      } catch (e) {
+        // if JSON parsing fails, we can assume it's an empty body
+        data = {};
+      }
     } else if (ct.includes("multipart/form-data")) {
       data = await req.json();
       const formData = new FormData();

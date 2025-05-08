@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { ButtonWithBorderRadius } from "@/lib/components/ButtonWithBorderRadius";
 import { requiredRule } from "@/lib/utils/validations";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
-import { profileActions } from "@/lib/redux/slices/profile.slice";
+import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { useCallback } from "react";
 import { useRootContextValues } from "@/lib/contexts/root.context";
 import { ThunkStatus } from "@/lib/types/misc";
@@ -39,6 +39,7 @@ export default function ChangePassword() {
   );
 
   const onSubmit = (data: any) => {
+    console.log("data in change pass: ", data);
     dispatch(
       profileActions.changePassword({
         oldPassword: data.oldPassword,
