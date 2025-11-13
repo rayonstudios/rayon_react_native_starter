@@ -11,8 +11,8 @@ import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { useCallback } from "react";
 import { useRootContextValues } from "@/lib/contexts/root.context";
 import { ThunkStatus } from "@/lib/types/misc";
-import { useSession } from "@/lib/contexts/auth.context";
 import { ProfileUpdateBody } from "@/lib/types/profile";
+import { authActions } from "@/lib/modules/auth/slices/auth.slice";
 
 export default function ProfileSettings() {
   const profile = useAppSelector((state) => state.profile.data);
@@ -21,7 +21,6 @@ export default function ProfileSettings() {
   );
   const dispatch = useAppDispatch();
   const { setHeaderOptions, showAlert } = useRootContextValues();
-  const { signOut } = useSession();
 
   const {
     control,
@@ -56,7 +55,7 @@ export default function ProfileSettings() {
         "Are you sure you want to delete your account? This action is irreversible",
       onOk: async () => {
         await dispatch(profileActions.deleteProfile()).unwrap();
-        signOut();
+        dispatch(authActions.logout());
       },
     });
   };

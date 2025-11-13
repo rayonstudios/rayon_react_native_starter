@@ -4,13 +4,13 @@ import { TextInput } from "react-native-paper";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { OTPInput } from "@/lib/components/OtpInput";
 import { useLocalSearchParams } from "expo-router";
-import { useSession } from "@/lib/contexts/auth.context";
 import { ActivityIndicator, Text } from "react-native-paper";
 import { useThemeColor } from "@/lib/hooks/useThemeColor";
 import { Controller, useForm } from "react-hook-form";
 import { requiredRule } from "@/lib/utils/validations";
 import { ButtonWithBorderRadius } from "@/lib/components/ButtonWithBorderRadius";
 import PasswordField from "@/lib/components/PasswordField";
+import { useAuth } from "@/lib/modules/auth/hooks/auth.hooks";
 
 export default function ResetEmail() {
   const data = useLocalSearchParams();
@@ -29,7 +29,12 @@ export default function ResetEmail() {
 
   const primaryColor = useThemeColor({}, "primary") as string;
   const [codes, setCodes] = useState<string[]>(Array(6).fill(""));
-  const { resetPassword, authLoading, resendVerificationEmail } = useSession();
+  const {
+    resetPassword,
+    resendVerificationEmail,
+    resetPasswordLoading,
+    resendVerificationEmailLoading,
+  } = useAuth();
   const [field, setField] = useState<string>("otp");
 
   const refs: RefObject<TextInputRN>[] = [
@@ -108,7 +113,7 @@ export default function ResetEmail() {
                     errorMessages={errorMessages}
                     onChangeCode={onChangeCode}
                     refs={refs as any}
-                    editable={!authLoading}
+                    editable={!resetPasswordLoading}
                     config={{
                       backgroundColor: "#fff",
                       textColor: "#000",
@@ -133,7 +138,7 @@ export default function ResetEmail() {
                 render={() => (
                   <TextInput
                     label="Email"
-                    disabled
+                    // disabled
                     className="h-11"
                     mode="outlined"
                     value={
@@ -176,7 +181,7 @@ export default function ResetEmail() {
             <ButtonWithBorderRadius
               mode="contained"
               onPress={handleSubmit(onSubmit)}
-              loading={authLoading}
+              loading={resetPasswordLoading}
             >
               Continue
             </ButtonWithBorderRadius>
@@ -193,12 +198,12 @@ export default function ResetEmail() {
                     email: data!.email as string,
                   })
                 }
-                disabled={authLoading}
+                disabled={resendVerificationEmailLoading}
               >
                 <Text style={{ color: primaryColor }}>Resend</Text>
               </TouchableOpacity>
             </View>
-            {authLoading && (
+            {resendVerificationEmailLoading && (
               <ActivityIndicator animating className="mt-[25px]" />
             )}
           </>

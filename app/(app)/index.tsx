@@ -1,4 +1,4 @@
-import { useAppDispatch } from "@/lib/redux/store";
+import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { router, useNavigationContainerRef } from "expo-router";
 import { useEffect, useState } from "react";
@@ -9,10 +9,15 @@ import { StackActions } from "@react-navigation/native";
 export default function Index() {
   const dispatch = useAppDispatch();
   const [isLoading, setIsLoading] = useState(true);
+  const status = useAppSelector((state) => state.auth.status);
 
   const rootNavigation = useNavigationContainerRef();
 
   useEffect(() => {
+    if (status === "unauthenticated") {
+      router.replace("/sign-in");
+      return;
+    }
     const initialize = async () => {
       try {
         await dispatch(profileActions.fetch())

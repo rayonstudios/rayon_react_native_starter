@@ -1,17 +1,17 @@
 import React, { useEffect, useCallback } from "react";
 import { Platform, PermissionsAndroid } from "react-native";
 import { Redirect, Stack } from "expo-router";
-import { useSession } from "@/lib/contexts/auth.context";
 import AppBar from "@/lib/components/Appbar";
 import { useAppDispatch, useAppSelector } from "@/lib/redux/store";
 import messaging from "@react-native-firebase/messaging";
 import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { Notifications } from "react-native-notifications";
+import { useAuth } from "@/lib/modules/auth/hooks/auth.hooks";
 
 export default function AppLayout() {
   const profile = useAppSelector((state) => state.profile.data);
   const dispatch = useAppDispatch();
-  const { session, isLoading } = useSession();
+  const { status, loadingAccessToken } = useAuth();
 
   const onAppBootstrap = useCallback(async () => {
     if (!profile) return;
@@ -87,9 +87,9 @@ export default function AppLayout() {
     return () => unsubscribe();
   }, [handleRemoteMessage]);
 
-  if (isLoading) return null;
+  if (loadingAccessToken) return null;
 
-  if (!session) {
+  if (status === "unauthenticated") {
     return <Redirect href="/root" />;
   }
 

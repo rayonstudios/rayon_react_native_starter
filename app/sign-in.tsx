@@ -1,5 +1,4 @@
 import CustomPage from "@/lib/components/Page";
-import { useSession } from "@/lib/contexts/auth.context";
 import { router, useLocalSearchParams } from "expo-router";
 import { Pressable, View } from "react-native";
 import { useForm, Controller } from "react-hook-form";
@@ -12,11 +11,12 @@ import {
 } from "@/lib/utils/validations";
 import { useThemeColor } from "@/lib/hooks/useThemeColor";
 import PasswordField from "@/lib/components/PasswordField";
+import { useAuth } from "@/lib/modules/auth/hooks/auth.hooks";
 
 export default function SignIn() {
   const data = useLocalSearchParams();
-  const { signIn, authLoading: signInLoading } = useSession();
-  const onSubmit = (data: any) => signIn(data);
+  const { login, loginLoading } = useAuth();
+  const onSubmit = (data: any) => login(data);
   const primaryColor = useThemeColor({}, "primary") as string;
 
   const {
@@ -102,7 +102,7 @@ export default function SignIn() {
           <ButtonWithBorderRadius
             mode="contained"
             onPress={handleSubmit(onSubmit)}
-            loading={signInLoading}
+            loading={loginLoading}
           >
             Continue
           </ButtonWithBorderRadius>

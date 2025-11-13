@@ -4,7 +4,7 @@ import { TextInput, View } from "react-native";
 interface OTPInputProps {
   codes: string[];
   refs: RefObject<TextInput>[];
-  errorMessages: string[] | undefined;
+  errorMessages?: string[];
   onChangeCode: (text: string, index: number) => void;
   config: OTPInputConfig;
   editable?: boolean;
@@ -28,42 +28,56 @@ export function OTPInput({
 }: OTPInputProps) {
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null);
 
-  const handleFocus = (index: number) => setFocusedIndex(index);
-  const handleBlur = () => setFocusedIndex(null);
+  const getInputStyle = (index: number) => {
+    const isFocused = focusedIndex === index;
+    const hasError = errorMessages !== undefined;
+
+    return {
+      backgroundColor: config.backgroundColor,
+      color: hasError ? config.errorColor : config.textColor,
+      borderColor: hasError
+        ? config.errorColor
+        : isFocused
+          ? config.focusColor
+          : config.borderColor,
+    };
+  };
 
   return (
-    <View className="flex-row w-full justify-between">
+    <View
+      style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "100%",
+        gap: 8,
+      }}
+    >
       {codes.map((code, index) => (
         <TextInput
           key={index}
-          autoComplete="one-time-code"
-          enterKeyHint="next"
-          className="text-[16px] h-12 w-12 rounded-lg text-center border-2"
+          ref={refs[index]}
           style={[
-            // base dynamic colors
             {
-              backgroundColor: config.backgroundColor,
-              color: config.textColor,
-              borderColor: config.borderColor,
+              fontSize: 16,
+              height: 48,
+              width: 48,
+              borderWidth: 2,
+              borderRadius: 8,
             },
-            // error state
-            errorMessages && {
-              borderColor: config.errorColor,
-              color: config.errorColor,
-            },
-            // focus state
-            focusedIndex === index && { borderColor: config.focusColor },
+            getInputStyle(index),
           ]}
+          autoComplete="one-time-code"
+          keyboardType="default"
+          returnKeyType="next"
+          textAlign="center"
+          maxLength={1}
           editable={editable}
-          inputMode="numeric"
           onChangeText={(text) => onChangeCode(text, index)}
           value={code}
-          onFocus={() => handleFocus(index)}
-          onBlur={handleBlur}
-          maxLength={index === 0 ? codes.length : 1}
-          ref={refs[index]}
+          onFocus={() => setFocusedIndex(index)}
+          onBlur={() => setFocusedIndex(null)}
           onKeyPress={({ nativeEvent: { key } }) => {
-            if (key === "Backspace" && index > 0) {
+            if (key === "Backspace" && code === "" && index > 0) {
               onChangeCode("", index - 1);
               refs[index - 1]?.current?.focus();
             }

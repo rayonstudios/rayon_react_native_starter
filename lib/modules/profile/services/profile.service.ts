@@ -1,5 +1,5 @@
 import apiClient, { withApiResponseHandling } from "@/lib/openapi-fetch.config";
-import { AuthChangePasswordBody } from "@/lib/types/auth";
+import { AuthChangePasswordBody } from "@/lib/modules/auth/types/auth.types";
 import { ProfileUpdateBody } from "@/lib/types/profile";
 
 async function fetch() {

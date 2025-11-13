@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>API_KEY</key>
-	<string>dummy-api-key-google-service-plist-file-PROD</string>
+	<string>ADummyAPIKeyForStarterKitProd1234567890</string>
 	<key>GCM_SENDER_ID</key>
 	<string>123456789</string>
 	<key>PLIST_VERSION</key>

@@ -1,4 +1,3 @@
-import { useSession } from "@/lib/contexts/auth.context";
 import { useRootContextValues } from "@/lib/contexts/root.context";
 import { profileActions } from "@/lib/modules/profile/slices/profile.slice";
 import { useAppDispatch } from "@/lib/redux/store";
@@ -7,10 +6,10 @@ import { useMemo } from "react";
 import { Pressable, View } from "react-native";
 import { Divider, Icon, Text } from "react-native-paper";
 import messaging from "@react-native-firebase/messaging";
+import { authActions } from "@/lib/modules/auth/slices/auth.slice";
 
 const ThirdTab = () => {
   const { showAlert } = useRootContextValues();
-  const { signOut } = useSession();
   const dispatch = useAppDispatch();
 
   const profileMenu = useMemo(() => {
@@ -46,11 +45,12 @@ const ThirdTab = () => {
                 )
                   .unwrap()
                   .then(() => {
-                    signOut();
+                    console.log("Token removed: ", token);
+                    dispatch(authActions.logout());
                   });
               } catch (error) {
                 console.error("Error removing token:", error);
-                signOut();
+                dispatch(authActions.logout());
               }
             },
           });

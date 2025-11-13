@@ -27,10 +27,14 @@ const apiClient = createClient<paths>({
       headers: Object.fromEntries(req.headers.entries()),
     });
 
-    // 3. parse body based on content-type
+    // 3. parse body based on content-type (only for requests with body)
     const ct = req.headers.get("content-type") || "";
     let data: any;
-    if (ct.includes("application/json")) {
+
+    // GET and HEAD requests typically don't have a body
+    if (req.method === "GET" || req.method === "HEAD") {
+      data = undefined;
+    } else if (ct.includes("application/json")) {
       try {
         data = await req.json();
       } catch (e) {
@@ -45,7 +49,12 @@ const apiClient = createClient<paths>({
       });
       data = formData;
     } else {
-      data = await req.text();
+      try {
+        data = await req.text();
+      } catch (e) {
+        // if text parsing fails, we can assume it's an empty body
+        data = undefined;
+      }
     }
 
     // 4. delegate to axios

@@ -90,6 +90,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
         {
           android: {
             useLegacyPackaging: true,
+            ndkVersion: "26.1.10909125",
           },
           ios: {
             useFrameworks: "static",

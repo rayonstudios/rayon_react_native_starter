@@ -1,10 +1,10 @@
 import CustomPage from "@/lib/components/Page";
-import { useSession } from "@/lib/contexts/auth.context";
 import { View } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { TextInput, Text } from "react-native-paper";
 import { ButtonWithBorderRadius } from "@/lib/components/ButtonWithBorderRadius";
 import { isValidEmail, requiredRule } from "@/lib/utils/validations";
+import { useAuth } from "@/lib/modules/auth/hooks/auth.hooks";
 
 export default function ForgotPassword() {
   const {
@@ -16,7 +16,7 @@ export default function ForgotPassword() {
       email: "",
     },
   });
-  const { forgotPassword, authLoading: forgotPasswordLoading } = useSession();
+  const { forgotPassword, forgotPasswordLoading } = useAuth();
   const onSubmit = (data: any) => forgotPassword(data);
 
   return (
