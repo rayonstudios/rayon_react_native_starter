@@ -3,15 +3,20 @@ import { TextInput, TouchableOpacity, View } from "react-native";
 import { RefObject, useEffect, useRef, useState } from "react";
 import { OTPInput } from "@/lib/components/OtpInput";
 import { useLocalSearchParams } from "expo-router";
-import { useSession } from "@/lib/contexts/auth.context";
 import { ActivityIndicator, Text } from "react-native-paper";
 import { useThemeColor } from "@/lib/hooks/useThemeColor";
+import { useAuth } from "@/lib/modules/auth/hooks/auth.hooks";
 
 export default function VerifyEmail() {
   const data = useLocalSearchParams();
   const primaryColor = useThemeColor({}, "primary") as string;
   const [codes, setCodes] = useState<string[] | undefined>(Array(6).fill(""));
-  const { verifyEmail, authLoading, resendVerificationEmail } = useSession();
+  const {
+    verifyEmail,
+    resendVerificationEmail,
+    verifyEmailLoading,
+    resendVerificationEmailLoading,
+  } = useAuth();
   const refs: RefObject<TextInput>[] = [
     useRef<TextInput>(null),
     useRef<TextInput>(null),
@@ -70,7 +75,7 @@ export default function VerifyEmail() {
           errorMessages={errorMessages}
           onChangeCode={onChangeCode}
           refs={refs}
-          editable={!authLoading}
+          editable={!verifyEmailLoading}
           config={{
             backgroundColor: "#fff",
             textColor: "#000",
@@ -86,13 +91,13 @@ export default function VerifyEmail() {
             onPress={() =>
               resendVerificationEmail({ email: data.email as string })
             }
-            disabled={authLoading}
+            disabled={resendVerificationEmailLoading}
           >
             <Text className="text-primary">Resend</Text>
           </TouchableOpacity>
         </View>
 
-        {authLoading && (
+        {resendVerificationEmailLoading && (
           <View className="mt-[25px]">
             <ActivityIndicator animating size="large" />
           </View>

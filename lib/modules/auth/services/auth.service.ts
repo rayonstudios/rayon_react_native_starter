@@ -6,7 +6,7 @@ import {
   AuthResetPasswordBody,
   AuthVerifyEmailBody,
   AuthResendVerificationBody,
-} from "@/lib/types/auth";
+} from "@/lib/modules/auth/types/auth.types";
 
 async function login(payload: AuthLoginBody) {
   const { data } = await withApiResponseHandling(

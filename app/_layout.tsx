@@ -14,7 +14,6 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useColorScheme } from "@/lib/hooks/useColorScheme";
-import { SessionProvider } from "@/lib/contexts/auth.context";
 import {
   MD3DarkTheme,
   MD3LightTheme,
@@ -70,26 +69,24 @@ export default function RootLayout() {
       <RootContextProvider>
         <PaperProvider theme={paperTheme}>
           <ThemeProvider value={paperTheme as any}>
-            <SessionProvider>
-              <BottomSheetModalProvider>
-                <SafeAreaProvider>
-                  <SafeAreaView
-                    style={{
-                      backgroundColor: secondaryBackground,
-                    }}
-                    edges={["top", "left", "right"]}
-                  />
-                  <Slot
-                    screenOptions={{
-                      headerShown: false,
-                      backgroundColor: backgroundColor,
-                    }}
-                  />
-                  <StatusBar style="auto" />
-                  <Toast position="bottom" bottomOffset={30} />
-                </SafeAreaProvider>
-              </BottomSheetModalProvider>
-            </SessionProvider>
+            <BottomSheetModalProvider>
+              <SafeAreaProvider>
+                <SafeAreaView
+                  style={{
+                    backgroundColor: secondaryBackground,
+                  }}
+                  edges={["top", "left", "right"]}
+                />
+                <Slot
+                  screenOptions={{
+                    headerShown: false,
+                    backgroundColor: backgroundColor,
+                  }}
+                />
+                <StatusBar style="auto" />
+                <Toast position="bottom" bottomOffset={30} />
+              </SafeAreaProvider>
+            </BottomSheetModalProvider>
           </ThemeProvider>
         </PaperProvider>
       </RootContextProvider>

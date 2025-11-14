@@ -1,5 +1,4 @@
 import CustomPage from "@/lib/components/Page";
-import { useSession } from "@/lib/contexts/auth.context";
 import { router } from "expo-router";
 import { Pressable, View } from "react-native";
 import { useForm, Controller } from "react-hook-form";
@@ -13,7 +12,8 @@ import {
 } from "@/lib/utils/validations";
 import { useThemeColor } from "@/lib/hooks/useThemeColor";
 import PasswordField from "@/lib/components/PasswordField";
-import { AuthSignUpBody } from "@/lib/types/auth";
+import { useAuth } from "@/lib/modules/auth/hooks/auth.hooks";
+import { AuthSignUpBody } from "@/lib/modules/auth/types/auth.types";
 
 export default function SignUp() {
   const {
@@ -27,7 +27,7 @@ export default function SignUp() {
       password: "",
     },
   });
-  const { signUp, authLoading: signUpLoading } = useSession();
+  const { signUp, signUpLoading } = useAuth();
   const primaryColor = useThemeColor({}, "primary") as string;
   const onSubmit = (data: AuthSignUpBody) => signUp(data);
 

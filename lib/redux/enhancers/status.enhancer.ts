@@ -1,24 +1,17 @@
 import {
   Action,
-  createStore,
   isFulfilled,
   isPending,
   isRejected,
   isRejectedWithValue,
   StoreEnhancer,
 } from "@reduxjs/toolkit";
-import { Reducer } from "react";
 import { ThunkStatus } from "@/lib/types/misc";
 
-//@ts-ignore
-export const statusHandlerEnahncer: StoreEnhancer<{}, {}> =
-  (cs: typeof createStore) =>
-  (
-    reducer: Reducer<any, Action>,
-    initialState: any,
-    enhancer: StoreEnhancer
-  ) => {
-    const statusHandlerReducer = (state: any, action: Action) => {
+export const statusHandlerEnhancer: StoreEnhancer =
+  (createStore) =>
+  (reducer, preloadedState) => {
+    const statusHandlerReducer = (state: any, action: any) => {
       const newState = reducer(state, action);
 
       //get slicename and type value from action.type
@@ -27,20 +20,20 @@ export const statusHandlerEnahncer: StoreEnhancer<{}, {}> =
       const type = split[1];
       let status: ThunkStatus | undefined;
 
-      //change newsState based on the sliceName, type and the status conveyed by the action
+      //change newState based on the sliceName, type and the status conveyed by the action
       if (isPending(action)) status = ThunkStatus.LOADING;
       else if (isFulfilled(action)) status = ThunkStatus.IDLE;
       else if (isRejected(action) || isRejectedWithValue(action))
         status = ThunkStatus.FAILED;
 
-      if (status)
+      if (status && newState && typeof newState === "object")
         return {
           ...newState,
-          [sliceName]: { ...newState[sliceName], [type + "Status"]: status },
+          [sliceName]: { ...(newState as any)[sliceName], [type + "Status"]: status },
         };
 
       return newState;
     };
 
-    return cs(statusHandlerReducer, initialState, enhancer);
+    return createStore(statusHandlerReducer as any, preloadedState);
   };

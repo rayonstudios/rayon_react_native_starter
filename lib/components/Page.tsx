@@ -29,9 +29,9 @@ const CustomPage: React.FC<CustomPageProps> = ({
     );
   }
   return (
-    <View className="flex-1">
+    <View className="flex-1" style={{ backgroundColor: backgroundColor }}>
       {enableScrollView ? (
-        <ScrollView className="flex-1">
+        <ScrollView style={{ flex: 1 }}>
           <View
             style={[
               { flex: 1, backgroundColor: backgroundColor },

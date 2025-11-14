@@ -44,7 +44,7 @@ axios.interceptors.response.use(undefined, async (error) => {
     }${error.message}`;
   error.message = msg;
 
-  console.log("error.response: ", error.response);
+  console.log("error msg: ", msg);
 
   if (error.response?.status === 401) {
     if (!["/auth/login", "/auth/refresh"].includes(error.config.url!)) {
